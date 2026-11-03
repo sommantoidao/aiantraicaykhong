@@ -48,13 +48,36 @@ h1{font:italic 700 clamp(2.4rem,8vw,4rem)/1.15 "Playfair Display",Georgia,serif;
 
 /* Thẻ nhân vật */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-top:12px}
-.tile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;
-  min-height:240px;padding:14px;border-radius:16px;background:var(--c);color:#fff;position:relative;
-  overflow:hidden;border:1px solid rgba(255,255,255,.35);box-shadow:0 8px 22px rgba(20,10,40,.22);transition:transform .15s}
+.tile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;justify-content:center;
+  min-height:170px;align-items:center;text-align:center;padding:14px;border-radius:16px;background:linear-gradient(165deg,var(--card),var(--soft));animation:pop .45s backwards;animation-delay:calc(var(--i,0)*50ms);color:var(--ink);position:relative;
+  overflow:hidden;border:1.5px solid var(--line);box-shadow:0 4px 14px rgba(20,10,40,.10);transition:transform .15s}
+.tile .stats>span{background:var(--soft);color:var(--ink)}
+.tile .stats{justify-content:center}
+.tile .av{width:84px;height:84px;object-fit:contain;margin-bottom:8px;position:relative;z-index:1;filter:drop-shadow(0 8px 8px rgba(0,0,0,.28));transition:transform .25s}
+#all-grid .av{display:none}
+#all-grid .tile{min-height:100px}
+.tile:hover .av{transform:rotate(-8deg) scale(1.14)}
+.tile:hover{box-shadow:0 10px 26px rgba(20,10,40,.22)}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}}
+header{position:relative}
+.hero-art{position:absolute;right:0;top:-6px;display:flex;align-items:flex-end;gap:8px;pointer-events:none}
+.hero-art img{object-fit:contain;filter:drop-shadow(0 10px 10px rgba(0,0,0,.3));animation:bob 3.6s ease-in-out infinite}
+.hero-art img:nth-child(1){width:100px;height:100px}
+.hero-art img:nth-child(2){width:100px;height:100px;animation-delay:-.9s}
+.hero-art img:nth-child(3){width:72px;height:72px;animation-delay:-1.8s}
+.hero-art img:nth-child(4){width:72px;height:72px;animation-delay:-2.7s}
+@keyframes bob{50%{transform:translateY(-12px) rotate(5deg)}}
+@media (max-width:820px){
+  .hero-art{position:static;margin-top:10px}
+  .hero-art img:nth-child(1),.hero-art img:nth-child(2){width:64px;height:64px}
+  .hero-art img:nth-child(3),.hero-art img:nth-child(4){width:48px;height:48px}
+}
+.panel>h2{display:flex;align-items:center;gap:10px}
+.panel>h2 img{width:38px;height:38px;object-fit:contain;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
+.tabs button{transition:transform .15s}
+.tabs button:hover{transform:translateY(-2px)}
+@media (prefers-reduced-motion:reduce){.hero-art img,.tile{animation:none}}
 .tile:hover{transform:translateY(-3px)}
-.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,10,30,.82),rgba(20,10,30,0) 62%)}
-.tile .ph{position:absolute;top:8px;right:14px;font-size:2.6rem;font-weight:800;opacity:.28;color:#fff}
 .tile .name,.tile .role,.tile .stats{position:relative;z-index:1}
 .tile .name{font-size:1.15rem;font-weight:700;line-height:1.25}
 .tile .role{font-size:.88rem;opacity:.92}
@@ -99,18 +122,23 @@ dialog{border:0;padding:0;border-radius:20px;width:calc(100% - 24px);max-width:5
 dialog::backdrop{background:rgba(15,10,28,.6);backdrop-filter:blur(3px)}
 .dbody{padding:20px 22px 26px}
 .dtop{text-align:right;margin-bottom:10px}
-.pic{width:100%;max-height:340px;object-fit:cover;border-radius:14px;margin-bottom:14px;display:block}
-.bar{height:6px;border-radius:3px;background:var(--c);width:72px;margin-bottom:12px}
+.bar{height:6px;border-radius:3px;background:var(--acc);width:72px;margin-bottom:12px}
 .dbody h2{margin:0;font-size:1.8rem;line-height:1.2}
 .dbody .role{margin:2px 0 0;color:var(--muted)}
 .dbody h3{margin:20px 0 6px;font-size:1.02rem}
 .dbody p{margin:0;white-space:pre-line}
 dialog .stats>span{background:var(--soft);color:var(--ink)}
-.scene{border-left:4px solid var(--c);background:var(--soft);padding:10px 14px;border-radius:0 10px 10px 0;font-style:italic}
+.scene{border-left:4px solid var(--acc);background:var(--soft);padding:10px 14px;border-radius:0 10px 10px 0;font-style:italic}
 .linkrow{display:flex;gap:8px;flex-wrap:wrap}
 .linkrow input{flex:1 1 220px;min-width:0;padding:9px 14px;border:1.5px solid var(--line);border-radius:10px;
   background:var(--inp);color:var(--ink);font-size:.9rem}
 .start{margin-top:12px}
+.fbbox textarea{width:100%;min-height:84px;resize:vertical;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--inp);color:var(--ink);font:inherit;font-size:.95rem}
+.fbrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.fbrow span{color:var(--muted);font-size:.9rem}
+.fbnote{margin-top:6px!important;color:var(--muted);font-size:.82rem}
+.fbitem{background:var(--soft);border-radius:10px;padding:8px 12px;margin-top:8px}
+.fbitem small{color:var(--muted)}
 
 /* Góc giải trí */
 .games{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:18px;margin-top:14px}
@@ -118,36 +146,31 @@ dialog .stats>span{background:var(--soft);color:var(--ink)}
 .gcard h2{margin:0;font-size:1.3rem}
 .gst{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin:6px 0}
 .gmsg{margin:8px 0 0;font-weight:600;min-height:1.6em}
-
-/* Wordle */
-.wgrid{display:grid;gap:6px;max-width:300px;margin:10px auto}
-.wrow{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
-.wrow.bad{animation:wshake .4s}
 @keyframes wshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.wt{aspect-ratio:1;border:2px solid var(--line);border-radius:8px;display:grid;place-items:center;font-weight:800;
-  font-size:1.5rem;text-transform:uppercase;background:var(--inp)}
-.wt.f{border-color:var(--muted)}
-.wt.c,.k.c{background:var(--good);border-color:var(--good);color:#fff}
-.wt.p,.k.p{background:var(--warn);border-color:var(--warn);color:#fff}
-.wt.a,.k.a{background:var(--bad);border-color:var(--bad);color:#fff}
-.kb{display:grid;gap:6px;max-width:420px;margin:10px auto 0}
-.kr{display:flex;gap:5px;justify-content:center}
-.k{flex:1 1 0;max-width:40px;height:46px;border-radius:8px;border:0;background:var(--soft);color:var(--ink);
-  font-weight:700;cursor:pointer;text-transform:uppercase;font-size:.9rem;padding:0}
-.k.wide{max-width:62px;font-size:.72rem}
+
+/* Bầu cua */
+.bc-dice{display:flex;gap:10px;justify-content:center;margin:12px 0}
+.die{width:64px;height:64px;border-radius:12px;background:var(--inp);border:2px solid var(--line);display:grid;place-items:center;font-size:2.2rem}
+.die.roll{animation:wshake .25s infinite}
+.bc-board{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.bc-cell{position:relative;cursor:pointer;border:1.5px solid var(--line);background:var(--soft);color:var(--ink);border-radius:14px;padding:10px 4px;display:grid;place-items:center;font-weight:700}
+.bc-cell .em{font-size:2.2rem;line-height:1.2}
+.bc-cell .bet{position:absolute;top:4px;right:6px;font-style:normal;font-size:.8rem;background:var(--acc);color:var(--acc-ink);border-radius:8px;padding:0 7px}
+.bc-cell.win{border-color:var(--good);box-shadow:0 0 0 3px var(--good)}
+.bcrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+/* Lật hình */
+.mm{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:340px;margin:10px auto}
+.mc{aspect-ratio:1;cursor:pointer;border:0;border-radius:12px;background:var(--acc2);color:#fff;font-size:1.6rem;font-weight:800;display:grid;place-items:center;padding:0}
+.mc img{width:80%;height:80%;object-fit:contain;visibility:hidden}
+.mc.open,.mc.done{background:var(--soft)}
+.mc.open img,.mc.done img{visibility:visible}
+.mc.open span,.mc.done span{display:none}
+.mc.done{opacity:.55}
 
 /* Flappy */
 #flap{display:block;width:100%;max-width:320px;height:auto;margin:10px auto;border-radius:14px;
   border:1.5px solid var(--line);touch-action:none;cursor:pointer;outline-offset:3px}
-
-/* Phản xạ */
-#rx{display:grid;place-items:center;width:100%;height:200px;border-radius:14px;border:0;font-weight:700;font-size:1.3rem;
-  color:#fff;background:var(--acc2);cursor:pointer;user-select:none;touch-action:manipulation;text-align:center;padding:12px;margin:10px 0}
-#rx.wait{background:#a8323e}
-#rx.go{background:#2f8f5a}
-.rxs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
-.rxs div{background:var(--soft);border-radius:10px;padding:8px 4px;font-size:.85rem;color:var(--muted)}
-.rxs b{display:block;font-size:1.15rem;color:var(--ink)}
 
 /* Nhạc nền */
 #yt-wrap{position:fixed;left:-400px;top:0;width:200px;height:200px;pointer-events:none;overflow:hidden}
@@ -214,6 +237,7 @@ dialog .stats>span{background:var(--soft);color:var(--ink)}
   <header>
     <h1>sớm mận tối đào.</h1>
     <p class="sub">trái cây bốn mùa</p>
+    <div class="hero-art" id="hero-art" aria-hidden="true"></div>
 
     <div class="search">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
@@ -221,7 +245,8 @@ dialog .stats>span{background:var(--soft);color:var(--ink)}
     </div>
 
     <div class="tabs" id="tabs" role="tablist">
-      <button type="button" role="tab" data-tab="top" aria-selected="true">Nổi bật nhất</button>
+      <button type="button" role="tab" data-tab="all" aria-selected="true">Menu nhân vật</button>
+      <button type="button" role="tab" data-tab="top" aria-selected="false">Nổi bật nhất</button>
       <button type="button" role="tab" data-tab="pick" aria-selected="false">Trái cây hôm nay</button>
       <button type="button" role="tab" data-tab="genre" aria-selected="false">Thể loại</button>
       <button type="button" role="tab" data-tab="games" aria-selected="false">Góc giải trí</button>
@@ -233,7 +258,13 @@ dialog .stats>span{background:var(--soft);color:var(--ink)}
     <div class="grid" id="s-grid"></div>
   </section>
 
-  <section class="panel" id="p-top">
+  <section class="panel" id="p-all">
+    <h2>Menu nhân vật</h2>
+    <p class="gdesc">Toàn bộ nhân vật trong danh sách</p>
+    <div class="grid" id="all-grid"></div>
+  </section>
+
+  <section class="panel" id="p-top" hidden>
     <h2>Nổi bật nhất</h2>
     <p class="gdesc">Những nhân vật được xem nhiều nhất</p>
     <div class="grid" id="top-grid"></div>
@@ -258,15 +289,19 @@ dialog .stats>span{background:var(--soft);color:var(--ink)}
     <div class="games">
 
       <article class="gcard">
-        <h2>Wordle</h2>
-        <p class="gdesc">Đoán từ tiếng Anh 5 chữ cái trong 6 lượt. Xanh là đúng chỗ, vàng là có nhưng sai chỗ, xám là không có. Gõ phím hoặc bấm bàn phím bên dưới.</p>
+        <h2>Bầu cua tôm cá</h2>
+        <p class="gdesc">Chạm vào linh vật để đặt cược (mỗi lần 10 xu), rồi bấm Lắc. Ra mấy con trúng thì ăn bấy nhiêu lần tiền cược.</p>
         <div class="gst">
-          <span>Thắng <b id="w-w">0</b> · Thua <b id="w-l">0</b> · Chuỗi <b id="w-s">0</b></span>
-          <button class="btn alt" id="w-new" type="button">Ván mới</button>
+          <span>Xu: <b id="bc-coins">100</b> · Đang cược: <b id="bc-bet">0</b></span>
+          <button class="btn alt" id="bc-reset" type="button">Chơi lại</button>
         </div>
-        <div class="wgrid" id="w-grid"></div>
-        <p class="gmsg" id="w-msg" aria-live="polite"></p>
-        <div class="kb" id="w-kb"></div>
+        <div class="bc-dice" id="bc-dice" aria-live="polite"></div>
+        <div class="bc-board" id="bc-board"></div>
+        <div class="bcrow">
+          <button class="btn main" id="bc-roll" type="button">Lắc</button>
+          <button class="btn alt" id="bc-clear" type="button">Hủy cược</button>
+        </div>
+        <p class="gmsg" id="bc-msg" aria-live="polite"></p>
       </article>
 
       <article class="gcard">
@@ -281,18 +316,14 @@ dialog .stats>span{background:var(--soft);color:var(--ink)}
       </article>
 
       <article class="gcard">
-        <h2>Test phản xạ</h2>
-        <p class="gdesc">Chờ màn hình chuyển từ đỏ sang xanh rồi bấm thật nhanh. Bấm sớm là tính hỏng lượt.</p>
-        <button id="rx" type="button">Bấm để bắt đầu</button>
-        <div class="rxs">
-          <div>Lần gần nhất<b id="r-last">–</b></div>
-          <div>Trung bình<b id="r-avg">–</b></div>
-          <div>Tốt nhất<b id="r-best">–</b></div>
+        <h2>Lật hình trái cây</h2>
+        <p class="gdesc">Lật hai thẻ mỗi lượt, tìm đủ 6 cặp trái cây giống nhau với ít lượt nhất.</p>
+        <div class="gst">
+          <span>Lượt: <b id="mm-moves">0</b> · Tốt nhất: <b id="mm-best">–</b></span>
+          <button class="btn alt" id="mm-new" type="button">Ván mới</button>
         </div>
-        <div class="gst" style="margin-top:10px">
-          <p class="gmsg" id="r-msg" aria-live="polite" style="margin:0"></p>
-          <button class="btn alt" id="r-reset" type="button">Đặt lại</button>
-        </div>
+        <div class="mm" id="mm-grid"></div>
+        <p class="gmsg" id="mm-msg" aria-live="polite"></p>
       </article>
 
     </div>
@@ -330,8 +361,6 @@ dialog .stats>span{background:var(--soft);color:var(--ink)}
                 ví dụ "Cổ trang, Ngọt sủng, Age gap"
                 (xem danh sách thể loại có sẵn ở biến GENRES bên dưới,
                  ghi thể loại mới cũng được, trang sẽ tự thêm)
-   - image:     đường dẫn ảnh, ví dụ "anh/nhanvat1.jpg" hoặc link https://...
-   - color:     màu nền thẻ khi chưa có ảnh
    - views:     số lượt xem (số)
    - feedback:  số feedback (số)
    - backstory: tiểu sử
@@ -340,12 +369,12 @@ dialog .stats>span{background:var(--soft);color:var(--ink)}
    ============================================================ */
 var TOP_N = 6; /* số nhân vật hiện ở mục "Nổi bật nhất" */
 var CHARACTERS = [
-  { name: "", role: "", genre: "", image: "", color: "#b4577a", views: 0, feedback: 0, backstory: "", scene: "", link: "" },
-  { name: "", role: "", genre: "", image: "", color: "#6f5aa8", views: 0, feedback: 0, backstory: "", scene: "", link: "" },
-  { name: "", role: "", genre: "", image: "", color: "#3f8f78", views: 0, feedback: 0, backstory: "", scene: "", link: "" },
-  { name: "", role: "", genre: "", image: "", color: "#c27a4a", views: 0, feedback: 0, backstory: "", scene: "", link: "" },
-  { name: "", role: "", genre: "", image: "", color: "#4a7fb0", views: 0, feedback: 0, backstory: "", scene: "", link: "" },
-  { name: "", role: "", genre: "", image: "", color: "#a08a3c", views: 0, feedback: 0, backstory: "", scene: "", link: "" }
+  { name: "", role: "", genre: "", views: 0, feedback: 0, backstory: "", scene: "", link: "" },
+  { name: "", role: "", genre: "", views: 0, feedback: 0, backstory: "", scene: "", link: "" },
+  { name: "", role: "", genre: "", views: 0, feedback: 0, backstory: "", scene: "", link: "" },
+  { name: "", role: "", genre: "", views: 0, feedback: 0, backstory: "", scene: "", link: "" },
+  { name: "", role: "", genre: "", views: 0, feedback: 0, backstory: "", scene: "", link: "" },
+  { name: "", role: "", genre: "", views: 0, feedback: 0, backstory: "", scene: "", link: "" }
 ];
 
 /* ============================================================
@@ -551,19 +580,23 @@ FRUITS.forEach(function(f){ f.canvas = mk(256, f.draw); f.url = f.canvas.toDataU
 var dlg = $("dlg"), dbody = $("dbody"), lastFocus = null;
 var EMPTY = '<span class="empty">Chưa có thông tin</span>';
 
+function fbKey(i){ return "fb:" + i + ":" + dn(CHARACTERS[i], i); }
+function getFb(i){ try{ return JSON.parse(localStorage.getItem(fbKey(i)) || "[]"); }catch(e){ return []; } }
+function setFb(i, list){ try{ localStorage.setItem(fbKey(i), JSON.stringify(list)); return true; }catch(e){ return false; } }
+function fbCount(i){ return (+CHARACTERS[i].feedback || 0) + getFb(i).length; }
+
 function makeTile(i, rank){
   var c = CHARACTERS[i], b = document.createElement("button");
   b.type = "button";
   b.className = "tile";
-  b.style.setProperty("--c", c.color || "#b4577a");
+  b.style.setProperty("--i", String(rank ? rank - 1 : i % 12));
   b.setAttribute("aria-label", "Xem hồ sơ " + dn(c, i));
   b.innerHTML =
-    (c.image ? '<img src="' + esc(c.image) + '" alt="">' : '<span class="ph" aria-hidden="true">' + (i + 1) + '</span>') +
     (rank ? '<span class="rank">Top ' + rank + '</span>' : '') +
+    '<img class="av" src="' + FRUITS[i % FRUITS.length].url + '" alt="">' +
     '<span class="name">' + esc(dn(c, i)) + '</span>' +
-    (c.role ? '<span class="role">' + esc(c.role) + '</span>' : '') +
     '<span class="stats"><span title="Lượt xem">' + ICON.eye + fmt(c.views) + '</span>' +
-    '<span title="Feedback">' + ICON.chat + fmt(c.feedback) + '</span></span>';
+    '<span title="Feedback">' + ICON.chat + fmt(fbCount(i)) + '</span></span>';
   b.addEventListener("click", function(){ openProfile(i); });
   return b;
 }
@@ -571,15 +604,13 @@ function makeTile(i, rank){
 function openProfile(i){
   var c = CHARACTERS[i], name = dn(c, i), gs = genresOf(c);
   lastFocus = document.activeElement;
-  dlg.style.setProperty("--c", c.color || "#b4577a");
   dbody.innerHTML =
     '<div class="dtop"><button class="btn alt" id="dx" type="button">Đóng</button></div>' +
-    (c.image ? '<img class="pic" src="' + esc(c.image) + '" alt="' + esc(name) + '">' : '') +
     '<div class="bar"></div>' +
     '<h2 id="dlg-name">' + esc(name) + '</h2>' +
     (c.role ? '<p class="role">' + esc(c.role) + '</p>' : '') +
     '<div class="stats">' + gs.map(function(g){ return '<span>' + esc(g) + '</span>'; }).join("") +
-    '<span>' + ICON.eye + fmt(c.views) + ' lượt xem</span><span>' + ICON.chat + fmt(c.feedback) + ' feedback</span></div>' +
+    '<span>' + ICON.eye + fmt(c.views) + ' lượt xem</span><span id="fb-count">' + ICON.chat + fmt(fbCount(i)) + ' feedback</span></div>' +
     '<h3>Backstory</h3>' + (c.backstory ? '<p>' + esc(c.backstory) + '</p>' : '<p>' + EMPTY + '</p>') +
     '<h3>Cảnh mở đầu</h3>' + (c.scene ? '<p class="scene">' + esc(c.scene) + '</p>' : '<p>' + EMPTY + '</p>') +
     '<h3>Link nhân vật</h3>' +
@@ -587,9 +618,29 @@ function openProfile(i){
       ? '<div class="linkrow"><input readonly value="' + esc(c.link) + '" aria-label="Link nhân vật">' +
         '<button class="btn alt" type="button" id="copy">Sao chép</button></div>' +
         '<div class="start"><a class="btn main" href="' + esc(c.link) + '" target="_blank" rel="noopener">Chat với ' + esc(name) + '</a></div>'
-      : '<p>' + EMPTY + '</p>');
+      : '<p>' + EMPTY + '</p>') +
+    '<h3>Feedback</h3>' +
+    '<div class="fbbox"><textarea id="fb-text" maxlength="500" placeholder="Viết feedback về ' + esc(name) + '…" aria-label="Nội dung feedback"></textarea>' +
+    '<div class="fbrow"><button class="btn main" type="button" id="fb-send">Gửi feedback</button><span id="fb-msg" aria-live="polite"></span></div>' +
+    '<p class="fbnote">Feedback được lưu trên thiết bị này.</p></div>' +
+    '<div id="fb-list"></div>';
 
   $("dx").addEventListener("click", function(){ dlg.close(); });
+  function showFb(){
+    $("fb-list").innerHTML = getFb(i).slice().reverse().map(function(f){
+      return '<div class="fbitem"><p>' + esc(f.t) + '</p><small>' + esc(f.d) + '</small></div>';
+    }).join("");
+    $("fb-count").innerHTML = ICON.chat + fmt(fbCount(i)) + ' feedback';
+  }
+  $("fb-send").addEventListener("click", function(){
+    var box = $("fb-text"), t = box.value.trim(), m = $("fb-msg");
+    if(!t){ m.textContent = "Hãy nhập nội dung feedback"; box.focus(); return; }
+    var list = getFb(i); list.push({t: t, d: new Date().toLocaleString("vi-VN")});
+    if(!setFb(i, list)){ m.textContent = "Không lưu được feedback trên thiết bị này"; return; }
+    box.value = ""; m.textContent = "Đã gửi, cảm ơn bạn!"; showFb();
+    renderAll(); renderTop(); renderGenres(); applyView();
+  });
+  showFb();
   var cp = $("copy");
   if(cp){
     cp.addEventListener("click", function(){
@@ -605,6 +656,13 @@ function openProfile(i){
 }
 dlg.addEventListener("click", function(e){ if(e.target === dlg) dlg.close(); });
 dlg.addEventListener("close", function(){ if(lastFocus && lastFocus.focus) lastFocus.focus(); });
+
+/* ===== MỤC 0: MENU NHÂN VẬT (tất cả, theo thứ tự trong CHARACTERS) ===== */
+function renderAll(){
+  var el = $("all-grid"); el.innerHTML = "";
+  if(!CHARACTERS.length){ el.innerHTML = '<p class="empty">Chưa có nhân vật nào</p>'; return; }
+  CHARACTERS.forEach(function(c, i){ el.appendChild(makeTile(i)); });
+}
 
 /* ===== MỤC 1: NỔI BẬT NHẤT ===== */
 function renderTop(){
@@ -702,7 +760,7 @@ function renderGenres(){
 }
 
 /* ===== TAB VÀ TÌM KIẾM ===== */
-var active = "top", PANELS = ["top", "pick", "genre", "games"];
+var active = "all", PANELS = ["all", "top", "pick", "genre", "games"];
 function applyView(){
   var s = norm($("q").value.trim()), searching = !!s;
   PANELS.forEach(function(k){ $("p-" + k).hidden = searching || k !== active; });
@@ -724,89 +782,70 @@ function showTab(k){
 }
 Array.prototype.forEach.call($("tabs").children, function(b){ b.addEventListener("click", function(){ showTab(b.dataset.tab); }); });
 $("q").addEventListener("input", applyView);
-renderTop(); renderGenres(); applyView();
+renderAll(); renderTop(); renderGenres(); applyView();
 
-/* ===== GAME 1: WORDLE ===== */
+/* ===== TRANG TRÍ: trái cây 3D bồng bềnh ở đầu trang và cạnh tiêu đề mỗi mục ===== */
 (function(){
-  var WORDS = ("about above actor adapt adult after again agree alarm album alert alike alive allow alone along alter among angry apple arena argue arise armor aside asset avoid awake award aware basic beach begin being below bench birth black blame blind block blood board boost brain brand bread break brick brief bring broad brown build burst cable candy carry catch cause chain chair charm chart chase cheap check chest chief child chill claim class clean clear click climb clock close cloud coach coast color count court cover craft crash crazy cream cross crowd crown cycle daily dance death delay depth dirty doubt dozen draft drama dream dress drink drive early earth eight elite empty enemy enjoy enter equal error event every exact exist extra faith false fancy fault field fifth fight final first flame flash fleet floor focus force frame fresh front fruit funny ghost giant given glass globe glory grace grade grain grand grape grass great green group guard guess guest guide happy heart heavy honey horse hotel house human humor ideal image index inner irony issue jelly joint judge juice knife known label large laser later laugh layer learn least leave legal lemon level light limit local logic loose lucky lunch magic major maker march match maybe mayor media metal might minor model money month moral motor mount mouse mouth movie music naive nasty night noble noise north novel nurse ocean offer often olive onion opera order other outer owner paint panel paper party pasta peace peach pearl phase phone photo piano piece pilot pitch pizza place plain plane plant plate point pound power press price pride prime print prize proof proud pulse queen quick quiet quote radio raise range rapid ratio reach ready realm reply rider right river robot rough round route royal rural salad scale scene scope score sense serve seven shade shape share sharp sheep sheet shelf shell shift shine shirt shock shoot short shown sight silly since sixth skill sleep slice slide small smart smile smoke snack solid solve sound south space spare speak speed spend spice spoon sport squad stack staff stage stair stand start state steak steam steel stick still stone store storm story strip study stuff style sugar suite sunny super sweet swing table taste teach thank their theme there thick thing think third those three throw tiger tight title toast today token tooth topic total touch tough tower trace track trade trail train treat trend trial tribe trick troop truck truly trust truth twice uncle under union unity until upper upset urban usage usual valid value video virus visit vital vivid vocal voice waste watch water wheel where which while white whole whose woman world worry worth would wound write wrong yield young youth zebra")
-    .split(" ").filter(function(w){ return w.length === 5; });
-  var grid = $("w-grid"), kb = $("w-kb"), msg = $("w-msg");
-  var target, row, col, over, tiles = [], rows = [], keys = {}, W = 0, L = 0, streak = 0;
-  try{ streak = +localStorage.getItem("wstreak") || 0; }catch(e){}
-  $("w-s").textContent = streak;
-
-  for(var r = 0; r < 6; r++){
-    var rowEl = document.createElement("div"); rowEl.className = "wrow"; var rt = [];
-    for(var c = 0; c < 5; c++){ var t = document.createElement("div"); t.className = "wt"; rowEl.appendChild(t); rt.push(t); }
-    grid.appendChild(rowEl); rows.push(rowEl); tiles.push(rt);
-  }
-  var LAYOUT = ["qwertyuiop", "asdfghjkl", "*zxcvbnm#"];
-  LAYOUT.forEach(function(line){
-    var kr = document.createElement("div"); kr.className = "kr";
-    line.split("").forEach(function(ch){
-      var b = document.createElement("button"); b.type = "button"; b.className = "k";
-      if(ch === "*"){ b.textContent = "Gửi"; b.className += " wide"; b.addEventListener("pointerdown", function(e){ e.preventDefault(); submit(); }); }
-      else if(ch === "#"){ b.textContent = "Xóa"; b.className += " wide"; b.addEventListener("pointerdown", function(e){ e.preventDefault(); back(); }); }
-      else { b.textContent = ch; keys[ch] = b; b.addEventListener("pointerdown", function(e){ e.preventDefault(); add(ch); }); }
-      kr.appendChild(b);
-    });
-    kb.appendChild(kr);
+  var art = $("hero-art");
+  [0, 1, 3, 2].forEach(function(k){
+    var im = document.createElement("img"); im.src = FRUITS[k].url; im.alt = ""; art.appendChild(im);
   });
-
-  function add(ch){
-    if(over || col >= 5) return;
-    tiles[row][col].textContent = ch; tiles[row][col].classList.add("f"); col++;
-  }
-  function back(){
-    if(over || col <= 0) return;
-    col--; tiles[row][col].textContent = ""; tiles[row][col].classList.remove("f");
-  }
-  function score(g, t){
-    var res = [0, 0, 0, 0, 0], cnt = {}, i;
-    for(i = 0; i < 5; i++){ if(g[i] === t[i]) res[i] = 2; else cnt[t[i]] = (cnt[t[i]] || 0) + 1; }
-    for(i = 0; i < 5; i++){ if(res[i] !== 2 && cnt[g[i]] > 0){ res[i] = 1; cnt[g[i]]--; } }
-    return res;
-  }
-  function submit(){
-    if(over) return;
-    if(col < 5){
-      msg.textContent = "Cần đủ 5 chữ cái";
-      rows[row].classList.remove("bad"); void rows[row].offsetWidth; rows[row].classList.add("bad"); return;
-    }
-    var g = tiles[row].map(function(t){ return t.textContent; }).join("");
-    var res = score(g, target), cls = ["a", "p", "c"];
-    for(var i = 0; i < 5; i++){
-      tiles[row][i].classList.add(cls[res[i]]);
-      var k = keys[g[i]];
-      if(k){
-        var cur = k.classList.contains("c") ? 2 : k.classList.contains("p") ? 1 : k.classList.contains("a") ? 0 : -1;
-        if(res[i] > cur){ k.classList.remove("a", "p", "c"); k.classList.add(cls[res[i]]); }
-      }
-    }
-    msg.textContent = "";
-    if(g === target){
-      over = true; W++; streak++; msg.textContent = "Chính xác! Từ cần tìm là " + target.toUpperCase();
-    } else if(row === 5){
-      over = true; L++; streak = 0; msg.textContent = "Hết lượt. Từ cần tìm là " + target.toUpperCase();
-    } else { row++; col = 0; return; }
-    $("w-w").textContent = W; $("w-l").textContent = L; $("w-s").textContent = streak;
-    try{ localStorage.setItem("wstreak", String(streak)); }catch(e){}
-  }
-  function reset(){
-    target = WORDS[Math.floor(Math.random() * WORDS.length)]; row = 0; col = 0; over = false; msg.textContent = "";
-    tiles.forEach(function(rt){ rt.forEach(function(t){ t.textContent = ""; t.className = "wt"; }); });
-    Object.keys(keys).forEach(function(k){ keys[k].classList.remove("a", "p", "c"); });
-  }
-  $("w-new").addEventListener("click", function(){ reset(); this.blur(); });
-  document.addEventListener("keydown", function(e){
-    if($("p-games").hidden || dlg.open || e.ctrlKey || e.metaKey || e.altKey) return;
-    var tg = e.target && e.target.tagName;
-    if(tg === "INPUT" || tg === "TEXTAREA") return;
-    if(e.key === "Enter"){ e.preventDefault(); submit(); }
-    else if(e.key === "Backspace"){ e.preventDefault(); back(); }
-    else if(/^[a-zA-Z]$/.test(e.key)){ e.preventDefault(); add(e.key.toLowerCase()); }
+  var ICONS = {top: 2, pick: 3, genre: 4, games: 5};
+  Object.keys(ICONS).forEach(function(k){
+    var h = document.querySelector("#p-" + k + " > h2"); if(!h) return;
+    var im = document.createElement("img"); im.src = FRUITS[ICONS[k]].url; im.alt = ""; h.insertBefore(im, h.firstChild);
   });
-  reset();
+})();
+
+/* ===== GAME 1: BẦU CUA TÔM CÁ ===== */
+(function(){
+  var SY = [{n:"Bầu",e:"🥒"},{n:"Cua",e:"🦀"},{n:"Tôm",e:"🦐"},{n:"Cá",e:"🐟"},{n:"Gà",e:"🐓"},{n:"Nai",e:"🦌"}];
+  var STEP = 10, coins = 100, bets = [0,0,0,0,0,0], busy = false, cells = [];
+  var board = $("bc-board"), diceEl = $("bc-dice"), msg = $("bc-msg"), dice = [];
+  for(var d = 0; d < 3; d++){ var de = document.createElement("div"); de.className = "die"; de.textContent = "🎲"; diceEl.appendChild(de); dice.push(de); }
+  SY.forEach(function(s, i){
+    var b = document.createElement("button"); b.type = "button"; b.className = "bc-cell";
+    b.innerHTML = '<span class="em">' + s.e + '</span><span>' + s.n + '</span><i class="bet" hidden></i>';
+    b.addEventListener("click", function(){ if(busy || coins < STEP) return; coins -= STEP; bets[i] += STEP; render(); });
+    board.appendChild(b); cells.push(b);
+  });
+  function total(){ return bets.reduce(function(a, c){ return a + c; }, 0); }
+  function render(){
+    $("bc-coins").textContent = coins; $("bc-bet").textContent = total();
+    cells.forEach(function(b, i){ var t = b.querySelector(".bet"); t.hidden = !bets[i]; t.textContent = bets[i]; });
+    $("bc-roll").disabled = busy || !total();
+    $("bc-clear").disabled = busy || !total();
+  }
+  $("bc-clear").addEventListener("click", function(){ coins += total(); bets = [0,0,0,0,0,0]; render(); });
+  $("bc-reset").addEventListener("click", function(){
+    if(busy) return; coins = 100; bets = [0,0,0,0,0,0]; msg.textContent = "";
+    cells.forEach(function(b){ b.classList.remove("win"); });
+    dice.forEach(function(x){ x.textContent = "🎲"; }); render();
+  });
+  $("bc-roll").addEventListener("click", function(){
+    if(busy || !total()) return;
+    busy = true; msg.textContent = "Đang lắc…"; render();
+    cells.forEach(function(b){ b.classList.remove("win"); });
+    dice.forEach(function(x){ x.classList.add("roll"); });
+    var n = 0, tm = setInterval(function(){
+      dice.forEach(function(x){ x.textContent = SY[Math.floor(Math.random() * 6)].e; });
+      if(++n < 12) return;
+      clearInterval(tm);
+      var res = dice.map(function(x){ var k = Math.floor(Math.random() * 6); x.textContent = SY[k].e; x.classList.remove("roll"); return k; });
+      var gain = 0, staked = total();
+      bets.forEach(function(bt, i){
+        if(!bt) return;
+        var m = res.filter(function(r){ return r === i; }).length;
+        if(m){ gain += bt * (m + 1); cells[i].classList.add("win"); }
+      });
+      coins += gain; bets = [0,0,0,0,0,0]; busy = false;
+      var diff = gain - staked;
+      msg.textContent = diff > 0 ? "Thắng " + diff + " xu!" : diff === 0 ? "Hòa vốn" : "Thua " + (-diff) + " xu";
+      if(coins < STEP) msg.textContent += ". Hết xu rồi, bấm Chơi lại nhé";
+      render();
+    }, 90);
+  });
+  render();
 })();
 
 /* ===== GAME 2: FLAPPY BIRD ===== */
@@ -891,40 +930,42 @@ renderTop(); renderGenres(); applyView();
   reset();
 })();
 
-/* ===== GAME 3: TEST PHẢN XẠ ===== */
+/* ===== GAME 3: LẬT HÌNH TRÁI CÂY ===== */
 (function(){
-  var b = $("rx"), st = "idle", t0 = 0, timer = 0, list = [], best = 0;
-  try{ best = +localStorage.getItem("brx") || 0; }catch(e){}
-  function put(s, text, cls){ st = s; b.className = cls || ""; b.textContent = text; }
-  function stats(){
-    $("r-last").textContent = list.length ? list[list.length - 1] + " ms" : "–";
-    var l5 = list.slice(-5), avg = l5.length ? Math.round(l5.reduce(function(a, c){ return a + c; }, 0) / l5.length) : 0;
-    $("r-avg").textContent = avg ? avg + " ms" : "–";
-    $("r-best").textContent = best ? best + " ms" : "–";
+  var grid = $("mm-grid"), msg = $("mm-msg"), best = 0, moves = 0, first = null, lock = false, matched = 0;
+  try{ best = +localStorage.getItem("bmm") || 0; }catch(e){}
+  $("mm-best").textContent = best || "–";
+  function reset(){
+    grid.innerHTML = ""; moves = 0; matched = 0; first = null; lock = false; msg.textContent = ""; $("mm-moves").textContent = "0";
+    var deck = [0,1,2,3,4,5,0,1,2,3,4,5];
+    for(var i = deck.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)), t = deck[i]; deck[i] = deck[j]; deck[j] = t; }
+    deck.forEach(function(k){
+      var b = document.createElement("button"); b.type = "button"; b.className = "mc"; b.dataset.k = k;
+      b.setAttribute("aria-label", "Thẻ úp");
+      b.innerHTML = '<span>?</span><img src="' + FRUITS[k].url + '" alt="' + FRUITS[k].n + '">';
+      b.addEventListener("click", function(){ flip(b); });
+      grid.appendChild(b);
+    });
   }
-  function rate(ms){ return ms < 200 ? "Cực nhanh" : ms < 260 ? "Nhanh" : ms < 340 ? "Bình thường" : "Hơi chậm, thử lại nhé"; }
-  function start(){
-    $("r-msg").textContent = "";
-    put("wait", "Chờ màn hình chuyển xanh…", "wait");
-    timer = setTimeout(function(){ put("go", "BẤM!", "go"); t0 = performance.now(); }, rnd(1500, 4500));
-  }
-  function press(){
-    if(st === "idle" || st === "res" || st === "early"){ start(); return; }
-    if(st === "wait"){ clearTimeout(timer); put("early", "Bấm sớm quá! Bấm để thử lại", ""); $("r-msg").textContent = "Lượt này bị hỏng"; return; }
-    if(st === "go"){
-      var ms = Math.round(performance.now() - t0); list.push(ms);
-      if(!best || ms < best){ best = ms; try{ localStorage.setItem("brx", String(best)); }catch(e){} }
-      put("res", ms + " ms. Bấm để thử lại", ""); $("r-msg").textContent = rate(ms); stats();
+  function flip(b){
+    if(lock || b.classList.contains("open") || b.classList.contains("done")) return;
+    b.classList.add("open");
+    if(!first){ first = b; return; }
+    moves++; $("mm-moves").textContent = moves;
+    var a = first; first = null;
+    if(a.dataset.k === b.dataset.k){
+      a.className = b.className = "mc done"; matched++;
+      if(matched === 6){
+        msg.textContent = "Xong rồi! Bạn mất " + moves + " lượt";
+        if(!best || moves < best){ best = moves; $("mm-best").textContent = best; try{ localStorage.setItem("bmm", String(best)); }catch(e){} }
+      }
+    } else {
+      lock = true;
+      setTimeout(function(){ a.classList.remove("open"); b.classList.remove("open"); lock = false; }, 750);
     }
   }
-  b.addEventListener("pointerdown", function(e){ e.preventDefault(); press(); });
-  b.addEventListener("keydown", function(e){ if(e.key === " " || e.key === "Enter"){ e.preventDefault(); if(!e.repeat) press(); } });
-  b.addEventListener("click", function(e){ e.preventDefault(); });
-  $("r-reset").addEventListener("click", function(){
-    clearTimeout(timer); list = []; best = 0; try{ localStorage.removeItem("brx"); }catch(e){}
-    put("idle", "Bấm để bắt đầu", ""); $("r-msg").textContent = ""; stats();
-  });
-  stats();
+  $("mm-new").addEventListener("click", reset);
+  reset();
 })();
 
 /* ===== NHẠC NỀN (YouTube, bốc ngẫu nhiên mỗi lần vào trang) ===== */
