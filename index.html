@@ -54,8 +54,8 @@ h1{font:italic 700 clamp(2.4rem,8vw,4rem)/1.15 "Playfair Display",Georgia,serif;
 .tile .stats>span{background:var(--soft);color:var(--ink)}
 .tile .stats{justify-content:center}
 .tile .av{width:84px;height:84px;object-fit:contain;margin-bottom:8px;position:relative;z-index:1;filter:drop-shadow(0 8px 8px rgba(0,0,0,.28));transition:transform .25s}
-#all-grid .av{display:none}
-#all-grid .tile{min-height:100px}
+#all-grid .av,#top-grid .av{display:none}
+#all-grid .tile,#top-grid .tile{min-height:100px}
 .tile:hover .av{transform:rotate(-8deg) scale(1.14)}
 .tile:hover{box-shadow:0 10px 26px rgba(20,10,40,.22)}
 @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}}
@@ -172,32 +172,6 @@ dialog .stats>span{background:var(--soft);color:var(--ink)}
 #flap{display:block;width:100%;max-width:320px;height:auto;margin:10px auto;border-radius:14px;
   border:1.5px solid var(--line);touch-action:none;cursor:pointer;outline-offset:3px}
 
-/* Nhạc nền */
-#yt-wrap{position:fixed;left:-400px;top:0;width:200px;height:200px;pointer-events:none;overflow:hidden}
-.music{position:fixed;right:max(14px,env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));
-  z-index:50;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.fab{cursor:pointer;width:54px;height:54px;border-radius:50%;border:2px solid var(--line);background:var(--acc);color:var(--acc-ink);
-  display:grid;place-items:center;box-shadow:0 8px 20px rgba(10,5,25,.35)}
-.fab.playing svg{animation:spin 4s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.mpanel{width:min(340px,calc(100vw - 28px));max-height:62vh;overflow:auto;background:var(--card);border:1.5px solid var(--line);
-  border-radius:16px;padding:16px;backdrop-filter:blur(10px)}
-.mnow strong{display:block;font-size:1.05rem;line-height:1.25}
-.mnow span{color:var(--muted);font-size:.92rem}
-.mnote{margin:8px 0 0;font-size:.88rem;color:var(--muted)}
-.mnote a{color:var(--focus);font-weight:700}
-.mpanel input[type=range]{width:100%;accent-color:var(--acc)}
-.mctl{display:flex;align-items:center;gap:8px;margin:4px 0}
-.mctl button{cursor:pointer;width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--inp);
-  color:var(--ink);display:grid;place-items:center}
-.mctl #m-play{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
-.vol{flex:1;display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted)}
-.mlist{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:4px}
-.mlist button{cursor:pointer;width:100%;text-align:left;border:0;border-radius:10px;padding:8px 12px;background:transparent;
-  color:var(--ink);font-size:.95rem}
-.mlist button span{display:block;color:var(--muted);font-size:.82rem}
-.mlist button[aria-current="true"]{background:var(--soft)}
-
 /* Màn hình chém trái cây */
 #intro{position:fixed;inset:0;z-index:100;color:#f4eefa;transition:opacity .5s;touch-action:none;user-select:none;
   -webkit-user-select:none;background:radial-gradient(ellipse at 50% 30%,#3b2d5a,#241c3a 55%,#16212f)}
@@ -216,7 +190,6 @@ dialog .stats>span{background:var(--soft);color:var(--ink)}
 <body>
 
 <canvas id="bg" aria-hidden="true"></canvas>
-<div id="yt-wrap" aria-hidden="true"><div id="yt"></div></div>
 
 <!-- Màn hình chém trái cây -->
 <div id="intro" role="dialog" aria-label="Màn hình tải trang">
@@ -333,25 +306,6 @@ dialog .stats>span{background:var(--soft);color:var(--ink)}
 <!-- Hộp thoại hồ sơ nhân vật -->
 <dialog id="dlg" aria-labelledby="dlg-name"><div class="dbody" id="dbody"></div></dialog>
 
-<!-- Nhạc nền -->
-<div class="music">
-  <div class="mpanel" id="m-panel" hidden role="region" aria-label="Playlist nhạc">
-    <div class="mnow"><strong id="m-title"></strong><span id="m-artist"></span></div>
-    <p class="mnote" id="m-note" hidden></p>
-    <input type="range" id="m-seek" min="0" max="100" value="0" aria-label="Tua nhạc">
-    <div class="mctl">
-      <button id="m-prev" type="button" aria-label="Bài trước"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
-      <button id="m-play" type="button" aria-label="Phát nhạc"></button>
-      <button id="m-next" type="button" aria-label="Bài sau"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
-      <label class="vol">Âm lượng <input type="range" id="m-vol" min="0" max="100" value="50"></label>
-    </div>
-    <ol class="mlist" id="m-list"></ol>
-  </div>
-  <button class="fab" id="m-fab" type="button" aria-expanded="false" aria-controls="m-panel" aria-label="Mở playlist nhạc">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-  </button>
-</div>
-
 <script>
 /* ============================================================
    ĐIỀN THÔNG TIN NHÂN VẬT Ở ĐÂY
@@ -384,20 +338,6 @@ var CHARACTERS = [
 var GENRES = ["NP", "1P", "Côn trùng", "Ngụy côn trùng", "Ngọt sủng", "Hiện đại", "Cổ trang", "Ngược",
   "Age gap", "Size gap", "Học đường", "Hào môn", "Tu tiên", "Mạt thế", "Dị năng", "Ma quái", "Hài hước",
   "Chữa lành", "Oan gia", "Slow burn", "Hậu cung", "Xuyên không", "Showbiz", "Giả tưởng"];
-
-/* ============================================================
-   PLAYLIST NHẠC NỀN (YouTube)
-   - yt: danh sách ID video YouTube (phần sau v= trong link).
-         ID đầu tiên là chính, ID sau là dự phòng nếu video không cho nhúng.
-   Mỗi lần vào trang, nhạc tự bốc ngẫu nhiên một bài và phát khi bạn chạm vào trang.
-   ============================================================ */
-var PLAYLIST = [
-  { title: "Superpowers",                 artist: "Daniel Caesar", yt: ["rScwLoES2bM"] },
-  { title: "Just the Way You Are",        artist: "Milky",         yt: ["2s_QQOfet6k", "mtZkdEhAeDI"] },
-  { title: "Beautiful Boy (Darling Boy)", artist: "John Lennon",   yt: ["1BZkYfqa4Fs"] },
-  { title: "Sienna",                      artist: "The Marías",    yt: ["EiS7cKfuf6w"] },
-  { title: "Heavy",                       artist: "The Marías",    yt: ["1BCqCgamowo"] }
-];
 
 /* ===== TIỆN ÍCH ===== */
 function $(id){ return document.getElementById(id); }
@@ -790,7 +730,7 @@ renderAll(); renderTop(); renderGenres(); applyView();
   [0, 1, 3, 2].forEach(function(k){
     var im = document.createElement("img"); im.src = FRUITS[k].url; im.alt = ""; art.appendChild(im);
   });
-  var ICONS = {top: 2, pick: 3, genre: 4, games: 5};
+  var ICONS = {pick: 3, genre: 4, games: 5};
   Object.keys(ICONS).forEach(function(k){
     var h = document.querySelector("#p-" + k + " > h2"); if(!h) return;
     var im = document.createElement("img"); im.src = FRUITS[ICONS[k]].url; im.alt = ""; h.insertBefore(im, h.firstChild);
@@ -968,120 +908,6 @@ renderAll(); renderTop(); renderGenres(); applyView();
   reset();
 })();
 
-/* ===== NHẠC NỀN (YouTube, bốc ngẫu nhiên mỗi lần vào trang) ===== */
-(function(){
-  var n = PLAYLIST.length, idx = Math.floor(Math.random() * n), hist = [], player = null, ready = false;
-  var started = false, alt = 0, errs = 0;
-  var PLAY = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>',
-      PAUSE = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
-  var fab = $("m-fab"), panel = $("m-panel"), playBtn = $("m-play"), seek = $("m-seek"), note = $("m-note");
-
-  fab.addEventListener("click", function(){
-    var open = panel.hidden; panel.hidden = !open; fab.setAttribute("aria-expanded", String(open));
-  });
-  function renderList(){
-    var ol = $("m-list"); ol.innerHTML = "";
-    PLAYLIST.forEach(function(t, i){
-      var li = document.createElement("li"), b = document.createElement("button");
-      b.type = "button"; b.innerHTML = esc(t.title) + '<span>' + esc(t.artist) + '</span>';
-      if(i === idx) b.setAttribute("aria-current", "true");
-      b.addEventListener("click", function(){ started = true; hist.push(idx); load(i); });
-      li.appendChild(b); ol.appendChild(li);
-    });
-  }
-  function ui(){
-    var t = PLAYLIST[idx];
-    $("m-title").textContent = t.title; $("m-artist").textContent = t.artist;
-    seek.value = 0; note.hidden = true; renderList();
-  }
-  function cue(){
-    if(!player || !ready) return;
-    var id = PLAYLIST[idx].yt[alt] || PLAYLIST[idx].yt[0];
-    try{ player.loadVideoById(id); }catch(e){}
-  }
-  function load(i){
-    idx = (i + n) % n; alt = 0; ui();
-    if(started) cue();
-  }
-  function next(){
-    var j = idx;
-    if(n > 1){ do { j = Math.floor(Math.random() * n); } while(j === idx); }
-    hist.push(idx); load(j);
-  }
-  function prev(){ if(hist.length) load(hist.pop()); else load(idx - 1); }
-  function startMusic(){
-    if(started) return;
-    started = true;
-    if(ready) cue();
-  }
-  window.startMusic = startMusic;
-
-  playBtn.addEventListener("click", function(){
-    if(!started){ startMusic(); return; }
-    if(!player || !ready) return;
-    var s = player.getPlayerState();
-    if(s === 1 || s === 3) player.pauseVideo(); else player.playVideo();
-  });
-  $("m-prev").addEventListener("click", function(){ started = true; prev(); });
-  $("m-next").addEventListener("click", function(){ started = true; next(); });
-  $("m-vol").addEventListener("input", function(e){ if(player && ready) player.setVolume(+e.target.value); });
-  seek.addEventListener("input", function(){
-    if(player && ready && player.getDuration) player.seekTo(seek.value / 100 * player.getDuration(), true);
-  });
-
-  function fail(msg){
-    note.hidden = false;
-    var id = PLAYLIST[idx].yt[0];
-    note.innerHTML = esc(msg) + ' <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=' + id + '">Mở trên YouTube</a>';
-  }
-  window.onYouTubeIframeAPIReady = function(){
-    var vars = {playsinline: 1, controls: 0, disablekb: 1, rel: 0, modestbranding: 1};
-    if(/^https?:$/.test(location.protocol)) vars.origin = location.origin;
-    player = new YT.Player("yt", {
-      width: "200", height: "200", videoId: PLAYLIST[idx].yt[0], playerVars: vars,
-      events: {
-        onReady: function(){
-          ready = true; player.setVolume(+$("m-vol").value);
-          if(started) cue();
-        },
-        onStateChange: function(e){
-          if(e.data === 1){
-            errs = 0; note.hidden = true;
-            playBtn.innerHTML = PAUSE; playBtn.setAttribute("aria-label", "Tạm dừng"); fab.classList.add("playing");
-          } else if(e.data === 2){
-            playBtn.innerHTML = PLAY; playBtn.setAttribute("aria-label", "Phát nhạc"); fab.classList.remove("playing");
-          } else if(e.data === 0){ next(); }
-        },
-        onError: function(){
-          alt++;
-          if(PLAYLIST[idx].yt[alt]){ cue(); return; }
-          errs++;
-          if(errs >= n){
-            fail("Không phát được nhạc. Hãy mở trang qua https (không mở trực tiếp file) và bật internet.");
-            return;
-          }
-          fail("Bài này không cho nhúng, đang chuyển bài khác.");
-          setTimeout(next, 1200);
-        }
-      }
-    });
-  };
-  var tag = document.createElement("script"); tag.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(tag);
-  setInterval(function(){
-    if(player && ready && player.getDuration && player.getPlayerState && player.getPlayerState() === 1){
-      var d = player.getDuration(); if(d) seek.value = player.getCurrentTime() / d * 100;
-    }
-  }, 500);
-
-  playBtn.innerHTML = PLAY; ui();
-  /* Trình duyệt chỉ cho phát nhạc sau khi người dùng chạm vào trang, nên bắt cú chạm đầu tiên */
-  function firstTouch(){
-    ["pointerdown", "keydown", "touchstart"].forEach(function(ev){ document.removeEventListener(ev, firstTouch, true); });
-    startMusic();
-  }
-  ["pointerdown", "keydown", "touchstart"].forEach(function(ev){ document.addEventListener(ev, firstTouch, true); });
-})();
-
 /* ===== NỀN LẤP LÁNH VÀ SAO BĂNG (luôn chuyển động) ===== */
 (function(){
   var cv = $("bg"), ctx = cv.getContext("2d"), W, H, stars = [], shoots = [], last = 0, nextShoot = .4;
@@ -1191,7 +1017,6 @@ renderAll(); renderTop(); renderGenres(); applyView();
   function finish(){
     if(finished) return; finished = true;
     fill.style.width = "100%"; pct.textContent = "Tải xong!"; hint.textContent = "Chào mừng bạn";
-    if(window.startMusic) window.startMusic();
     setTimeout(function(){
       intro.classList.add("done"); document.body.style.overflow = "";
       setTimeout(function(){ cancelAnimationFrame(raf); window.removeEventListener("resize", resize); intro.remove(); }, 550);
